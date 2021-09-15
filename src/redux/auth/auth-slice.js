@@ -6,7 +6,7 @@ import authOperations from "./auth-operations";
 const initialState = {
   user: { name: null, email: null },
   token: null,
-  isLoggedIn: false,
+  isLogIn: false,
   isLoding: false,
 };
 
@@ -17,26 +17,27 @@ const authSlice = createSlice({
     [authOperations.register.fulfilled](state, action) {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      state.isLoggedIn = true;
+      state.isLogIn = true;
     },
     [authOperations.logIn.fulfilled](state, action) {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      state.isLoggedIn = true;
+      state.isLogIn = true;
     },
     [authOperations.logOut.fulfilled](state, action) {
       state.user = { name: null, email: null };
       state.token = null;
-      state.isLoggedIn = false;
+      state.isLogIn = false;
     },
 
     [authOperations.fetchCurrentUser.pending](state) {
       state.isLoding = true;
+      state.isLogIn = true;
     },
   },
   [authOperations.fetchCurrentUser.fulfilled](state, action) {
+    state.isLogIn = true;
     state.user = action.payload;
-    state.isLoggedIn = true;
     state.isLoding = false;
   },
 
